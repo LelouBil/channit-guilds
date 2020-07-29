@@ -1,0 +1,56 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'java'
+    id "io.freefair.lombok" version "5.1.0"
+}
+group = 'net.leloubil'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+compileJava{
+    options.compilerArgs += ["-parameters"]
+}
+
+repositories {
+    mavenCentral()
+    maven { url = "https://repo.aikar.co/content/groups/aikar/" }
+    maven { url = "https://hub.spigotmc.org/nexus/content/groups/public/" }
+    maven {
+        name = 'papermc-repo'
+        url = 'https://papermc.io/repo/repository/maven-public/'
+    }
+    maven {
+        name = 'sonatype'
+        url = 'https://oss.sonatype.org/content/groups/public/'
+    }
+    maven{
+        name ="jitpack.io"
+        url = "https://jitpack.io"
+    }
+}
+
+dependencies {
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.1-R0.1-SNAPSHOT'
+    compile 'co.aikar:acf-paper:0.5.0-SNAPSHOT'
+    compile 'org.reflections:reflections:0.9.11'
+    implementation 'org.hibernate:hibernate-core:'
+    implementation 'org.hibernate:hibernate-hikaricp:5.4.19.Final'
+    implementation 'com.github.TechFortress:GriefPrevention:16.14.0'
+}
+
+
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
+shadowJar {
+    relocate 'co.aikar.commands', 'net.leloubil.channitguilds.acf'
+    relocate 'co.aikar.locales', 'net.leloubil.channitguilds.locales'
+    getDestinationDirectory().set(new File(projectDir,"TestServer/plugins"))
+}

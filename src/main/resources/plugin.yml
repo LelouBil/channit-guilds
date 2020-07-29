@@ -1,0 +1,10 @@
+name: ChannitGuilds
+version: "@version@"
+main: net.leloubil.channitguilds.ChannitGuildsPlugin
+api-version: 1.16
+prefix: ChannitGuilds
+depend: [mcMMO, GriefPrevention]
+authors: [LelouBil]
+description: Guilds for ChannitCraft
+commands:
+  guild:
